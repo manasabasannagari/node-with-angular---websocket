@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<input type="text" id="message" placeholder="Enter message"/>
+<p  style="float: right;" id="messages"></p>
+<button id="sendMsg">
+Send
+</button>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+    const btn = document.getElementById('sendMsg');
+    const msg = document.getElementById('message'); 
+    const messages = document.getElementById('messages');
+    btn.addEventListener('click', ()=>{
+        const message = msg.value;
+        socket.emit('user-message', message);
+        console.log(message);
+    });
+    socket.on('message',(message)=>{
+        console.log(message)
+        const p = document.createElement("p");
+        p.innerText = message;
+        messages.appendChild(p);
+        });
+</script>
+</body>
+</html>
